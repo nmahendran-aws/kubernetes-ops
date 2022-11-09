@@ -90,8 +90,8 @@ module "eks" {
   ]
   map_users = [
     {
-      userarn  = "arn:aws:iam::725654443526:user/username"
-      username = "username"
+      userarn  = "arn:aws:iam::471727841202:user/kube-admin"
+      username = "kube-admin"
       groups   = ["system:masters"]
     },
   ]
@@ -103,7 +103,7 @@ module "eks" {
       desired_capacity = 2
       max_capacity     = 4
       min_capacity     = 1
-      instance_types   = ["t3.small"]
+      instance_types   = ["t2.small"]
       additional_tags  = local.tags
       k8s_labels       = {}
     }
