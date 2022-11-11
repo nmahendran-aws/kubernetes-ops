@@ -1,6 +1,6 @@
 locals {
   aws_region       = "us-east-1"
-  environment_name = "dev"
+  environment_name = "staging"
   tags = {
     ops_env              = "${local.environment_name}"
     ops_managed_by       = "terraform",
@@ -26,10 +26,11 @@ terraform {
   }
 
   backend "remote" {
+    # Update to your Terraform Cloud organization
     organization = "mahen-terraform"
 
     workspaces {
-      name = "kubernetes-ops-dev-25-eks-cluster-autoscaler"
+      name = "kubernetes-ops-staging-25-eks-cluster-autoscaler"
     }
   }
 }
@@ -41,9 +42,10 @@ provider "aws" {
 data "terraform_remote_state" "eks" {
   backend = "remote"
   config = {
+    # Update to your Terraform Cloud organization
     organization = "mahen-terraform"
     workspaces = {
-      name = "kubernetes-ops-dev-20-eks"
+      name = "kubernetes-ops-staging-20-eks"
     }
   }
 }
@@ -67,7 +69,7 @@ provider "helm" {
 # Helm - cluster-autoscaler
 #
 module "cluster-autoscaler" {
-  source = "github.com/ManagedKube/kubernetes-ops//terraform-modules/aws/cluster-autoscaler?ref=v1.0.12"
+  source = "github.com/ManagedKube/kubernetes-ops//terraform-modules/aws/cluster-autoscaler?ref=v1.0.30"
 
   aws_region                  = local.aws_region
   cluster_name                = local.environment_name
